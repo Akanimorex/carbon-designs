@@ -38,7 +38,7 @@ const Form = () => {
             <input
               type="number"
               required
-              className="border-grey-light h-[2.5rem] border-2 border-solid bg-[#f4f4f4] text-black focus:border-indigo-600 focus-visible:border-indigo-600"
+              className="w-1/4 border-grey-light h-[2.5rem] border-2 border-solid bg-[#f4f4f4] text-black focus:border-indigo-600 focus-visible:border-indigo-600"
               name=""
               id=""
             />
@@ -123,7 +123,7 @@ const Form = () => {
 
           <div>
             <button
-              className="min-h-[3rem] w-[20rem] cursor-pointer bg-indigo-600 text-white"
+              className="min-h-[3rem] w-1/4 cursor-pointer bg-indigo-600 text-white"
               type="submit"
             >
               Submit
