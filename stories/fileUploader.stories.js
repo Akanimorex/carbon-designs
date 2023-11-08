@@ -10,3 +10,8 @@ export const fileUploader = {
         
     }
 }
+export const dragAndDrop = {
+    args:{
+        variant:"dragAndDrop"
+    }
+}

@@ -1,11 +1,13 @@
 import React, { useState, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-const FileUploader = () => {
+const FileUploader = ({ variant }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [formatErrorMessage, setFormatErrorMessage] = useState("");
-  const [name, setName] = useState("");
+  const [dragActive, setDragActive] = useState(false);
+
+  const [preview, setPreview] = useState(null); //for the preview :not done yet
 
   const fileInput = useRef(null);
 
@@ -33,9 +35,11 @@ const FileUploader = () => {
     return true;
   };
 
+
   const handleFileChange = (e) => {
     //handle validations
-    const file = e.target.files[0];
+    e.stopPropagation();
+    const file = e.target.files[0] || e.dataTransfer.files[0];
     // console.log(file, "file");
     checkFileFormat(file);
     checkFileSize(file);
@@ -57,54 +61,144 @@ const FileUploader = () => {
 
     // if (file)
   };
+
+  // drag function
+  const handleDrag = (e)=> {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  //triggers when the file is dropped
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    console.log(e,"from file drag")
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFileChange(e);
+      // at least one file has been dropped so do something
+    }else {
+        console.log("there is no file")
+    }
+  };
+
+
+
+
   return (
     <div>
-      <div className="relative">
-        <h4>Upload files</h4>
-        <label className="text-sm text-gray-500">
-          Max file size is 1mb. Only .jpg files are supported
-        </label>
-        <div>
-          <input
-            type="file"
-            className="absolute opacity-0"
-            ref={fileInput}
-            name=""
-            onChange={handleFileChange}
-          />
-          <button
-            className="min-h-[3rem] w-[10rem] cursor-pointer bg-indigo-600 text-white"
-            type="button"
-            onClick={(e) => fileInput.current && fileInput.current.click()}
-            value={null}
-          >
-            Add file
-          </button>
+      {variant === "dragAndDrop" ? (
+        <div className="relative">
+          <h4>Upload files</h4>
 
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-          {formatErrorMessage && (
-            <p className="text-red-500">{formatErrorMessage}</p>
-          )}
+          <form onDragEnter={handleDrag} onSubmit={(e)=>e.preventDefault()} className="relative h-64 w-96 max-w-full text-center">
+            <input
+              type="file"
+              className="absolute hidden"
+              ref={fileInput}
+              name=""
+              onChange={handleFileChange}
+            />
+            <label 
+            className={`h-full flex items-center justify-center border-2 rounded-lg border-dashed border-gray-300 ${dragActive?"bg-white":"bg-gray-100"}`}>
+              {/* Max file size is 1mb. Only .jpg files are supported */}
+              <button
+                className="cursor-pointer p-1 text-base border font-oswald bg-transparent hover:underline"
+                type="button"
+                onClick={(e) => fileInput.current && fileInput.current.click()}
+                value={null}
+              >
+                Add file
+              </button>
+               {/* A screen to cover when default dragLeave occurs */}
+              { dragActive && (
+              <div id="drag-file-element"
+              className="absolute w-full h-full rounded-lg top-0 right-0 bottom-0 left-0"
+               onDragEnter={handleDrag} 
+               onDragLeave={handleDrag} 
+               onDragOver={handleDrag} 
+               onDrop={handleDrop}
+               ></div>
+              ) }
+            </label>
 
-          {selectedFile && (
-            <div
-              className="
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {formatErrorMessage && (
+              <p className="text-red-500">{formatErrorMessage}</p>
+            )}
+
+            {selectedFile && (
+              <div
+                className="
             border-grey-light
+            w-fit 
+            rounded-md 
             border-2 
-            border-solid 
-            bg-white 
-            text-sm text-gray-600 w-fit px-2 py-2 rounded-md
+            border-solid bg-white px-2 py-2 text-sm text-gray-600
             "
-            >
+              >
                 {selectedFile?.name}
                 <button onClick={() => setSelectedFile("")}>
-                    <AiOutlineClose />{" "}
+                  <AiOutlineClose />{" "}
                 </button>
                 {/* bug: when i clear the file, i can't upload again */}
-            </div>
-          )}
+              </div>
+            )}
+          </form>
         </div>
-      </div>
+      ) : (
+        <div className="relative">
+          <h4>Upload files</h4>
+          <label className="text-sm text-gray-500">
+            Max file size is 1mb. Only .jpg files are supported
+          </label>
+          <div>
+            <input
+              type="file"
+              className="absolute opacity-0"
+              ref={fileInput}
+              name=""
+              onChange={handleFileChange}
+            />
+            <button
+              className="min-h-[3rem] w-[10rem] cursor-pointer bg-indigo-600 text-white"
+              type="button"
+              onClick={(e) => fileInput.current && fileInput.current.click()}
+              value={null}
+            >
+              Add file
+            </button>
+
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {formatErrorMessage && (
+              <p className="text-red-500">{formatErrorMessage}</p>
+            )}
+
+            {selectedFile && (
+              <div
+                className="
+            border-grey-light
+            w-fit 
+            rounded-md 
+            border-2 
+            border-solid bg-white px-2 py-2 text-sm text-gray-600
+            "
+              >
+                {selectedFile?.name}
+                <button onClick={() => setSelectedFile("")}>
+                  <AiOutlineClose />{" "}
+                </button>
+                {/* bug: when i clear the file, i can't upload again */}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
