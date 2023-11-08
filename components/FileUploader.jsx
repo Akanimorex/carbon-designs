@@ -1,49 +1,61 @@
-import React, { useState, useRef} from "react";
+import React, { useState, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 const FileUploader = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [formatErrorMessage, setFormatErrorMessage] = useState("");
   const [name, setName] = useState("");
 
   const fileInput = useRef(null);
+
+  const checkFileHasBeenSelected = () => {};
+
   var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-
-  const checkFileFormat = (file)=>{
-    if (!allowedExtensions.exec(file)) {
-        setErrorMessage("wrong file format")
-        fileInput.value = '';
-        return false;
-    } 
-  }
-
-  const checkFileSize = (file) =>{
-    if(file.size > 1024 ){
-        setErrorMessage("File too large");
-        return false
+  const checkFileFormat = (file) => {
+    if (!allowedExtensions.exec(file?.name)) {
+      setFormatErrorMessage("wrong file format");
+      fileInput.value = "";
+      return false;
     }
-  }
+    setFormatErrorMessage("");
+    return true;
+  };
+
+  const checkFileSize = (file) => {
+    let fileSizeInKB = file.size / 1024;
+    if (fileSizeInKB > 1024) {
+      //check for file greater than 1MB
+      setErrorMessage("File too large");
+      return false;
+    }
+    setErrorMessage("");
+    return true;
+  };
 
   const handleFileChange = (e) => {
     //handle validations
     const file = e.target.files[0];
-    console.log(file, "file")
+    // console.log(file, "file");
     checkFileFormat(file);
-    checkFileSize(file.size)
+    checkFileSize(file);
+
+    if (checkFileFormat(file) && checkFileFormat(file)) {
+      setSelectedFile(file);
+    } else {
+      console.log("stuff went wron with the checks");
+    }
+
     //check if file has been selected
     // if (e.target.files.length > 0) {
-     
-    // } 
+    // }
     // else {
     //     //file has been not
     //     console.log("No file selected");
     //     // setSelectedFile(null);
     //   }
 
-  
     // if (file)
-
-  
   };
   return (
     <div>
@@ -56,41 +68,41 @@ const FileUploader = () => {
           <input
             type="file"
             className="absolute opacity-0"
+            ref={fileInput}
             name=""
             onChange={handleFileChange}
           />
           <button
             className="min-h-[3rem] w-[10rem] cursor-pointer bg-indigo-600 text-white"
             type="button"
-            onClick={e=>fileInput.current && fileInput.current.click()}
+            onClick={(e) => fileInput.current && fileInput.current.click()}
             value={null}
           >
             Add file
           </button>
 
-          {
-            errorMessage && (
-                <p className="text-red-500">{errorMessage}</p>
-            )
-          }
-
-          {selectedFile && (
-            <div>
-              <input
-                type="text"
-                readOnly
-                disabled
-                value={selectedFile?.name}
-                className="border-grey-light h-[2.5rem] border-2 border-solid bg-[#f4f4f4] text-black"
-              />{" "}
-              <button onClick={() => setSelectedFile(null)}>
-                {" "}
-                <AiOutlineClose />{" "}
-              </button>
-            </div>
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+          {formatErrorMessage && (
+            <p className="text-red-500">{formatErrorMessage}</p>
           )}
 
-         
+          {selectedFile && (
+            <div
+              className="
+            border-grey-light
+            border-2 
+            border-solid 
+            bg-white 
+            text-sm text-gray-600 w-fit px-2 py-2 rounded-md
+            "
+            >
+                {selectedFile?.name}
+                <button onClick={() => setSelectedFile("")}>
+                    <AiOutlineClose />{" "}
+                </button>
+                {/* bug: when i clear the file, i can't upload again */}
+            </div>
+          )}
         </div>
       </div>
     </div>
