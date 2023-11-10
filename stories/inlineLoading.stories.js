@@ -11,3 +11,10 @@ export const inlineLoading = {
         
     }
 }
+
+export const sample ={
+    args:{
+        variant:"sample",
+        
+    }
+}

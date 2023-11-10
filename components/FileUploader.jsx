@@ -6,6 +6,7 @@ const FileUploader = ({ variant }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [formatErrorMessage, setFormatErrorMessage] = useState("");
   const [dragActive, setDragActive] = useState(false);
+  const [inputButton, setInputButton] = useState(false);
 
   const [preview, setPreview] = useState(null); //for the preview :not done yet
 
@@ -35,19 +36,32 @@ const FileUploader = ({ variant }) => {
     return true;
   };
 
-
   const handleFileChange = (e) => {
     //handle validations
+
     e.stopPropagation();
-    const file = e.target.files[0] || e.dataTransfer.files[0];
+    // it shouldn't be based on the variant change,
+    //  so the click button can work too in the dragNdrop variant
+    let file =
+      variant == "dragAndDrop" ? e.dataTransfer.files[0] : e.target.files[0];
+
+      
+    // if (variant == "dragAndDrop") {
+    //   file = e.dataTransfer.files[0];
+    // } else if (inputButton) {
+    //   file = e.target.files[0];
+    // }else {
+    //     file = e.target.files[0]
+    // }
+
     // console.log(file, "file");
     checkFileFormat(file);
     checkFileSize(file);
 
-    if (checkFileFormat(file) && checkFileFormat(file)) {
+    if (checkFileFormat(file) && checkFileSize(file)) {
       setSelectedFile(file);
     } else {
-      console.log("stuff went wron with the checks");
+      console.log("stuff went wrong with the checks");
     }
 
     //check if file has been selected
@@ -63,7 +77,7 @@ const FileUploader = ({ variant }) => {
   };
 
   // drag function
-  const handleDrag = (e)=> {
+  const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
@@ -78,17 +92,16 @@ const FileUploader = ({ variant }) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    console.log(e,"from file drag")
+
+    //bug here
+    console.log(e, "from file drag");
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-          handleFileChange(e);
+      handleFileChange(e);
       // at least one file has been dropped so do something
-    }else {
-        console.log("there is no file")
+    } else {
+      console.log("there is no file");
     }
   };
-
-
-
 
   return (
     <div>
@@ -96,7 +109,11 @@ const FileUploader = ({ variant }) => {
         <div className="relative">
           <h4>Upload files</h4>
 
-          <form onDragEnter={handleDrag} onSubmit={(e)=>e.preventDefault()} className="relative h-64 w-96 max-w-full text-center">
+          <form
+            onDragEnter={handleDrag}
+            onSubmit={(e) => e.preventDefault()}
+            className="relative h-64 w-96 max-w-full text-center"
+          >
             <input
               type="file"
               className="absolute hidden"
@@ -104,27 +121,34 @@ const FileUploader = ({ variant }) => {
               name=""
               onChange={handleFileChange}
             />
-            <label 
-            className={`h-full flex items-center justify-center border-2 rounded-lg border-dashed border-gray-300 ${dragActive?"bg-white":"bg-gray-100"}`}>
+            <label
+              className={`flex h-full items-center justify-center rounded-lg border-2 border-dashed border-gray-300 ${
+                dragActive ? "bg-white" : "bg-gray-100"
+              }`}
+            >
               {/* Max file size is 1mb. Only .jpg files are supported */}
               <button
-                className="cursor-pointer p-1 text-base border font-oswald bg-transparent hover:underline"
+                className="font-oswald cursor-pointer border bg-transparent p-1 text-base hover:underline"
                 type="button"
-                onClick={(e) => fileInput.current && fileInput.current.click()}
+                onClick={(e) => {
+                  fileInput.current && fileInput.current.click();
+                  setInputButton(true);
+                }}
                 value={null}
               >
                 Add file
               </button>
-               {/* A screen to cover when default dragLeave occurs */}
-              { dragActive && (
-              <div id="drag-file-element"
-              className="absolute w-full h-full rounded-lg top-0 right-0 bottom-0 left-0"
-               onDragEnter={handleDrag} 
-               onDragLeave={handleDrag} 
-               onDragOver={handleDrag} 
-               onDrop={handleDrop}
-               ></div>
-              ) }
+              {/* A screen to cover when default dragLeave occurs */}
+              {dragActive && (
+                <div
+                  id="drag-file-element"
+                  className="absolute bottom-0 left-0 right-0 top-0 h-full w-full rounded-lg"
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                ></div>
+              )}
             </label>
 
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
@@ -135,11 +159,15 @@ const FileUploader = ({ variant }) => {
             {selectedFile && (
               <div
                 className="
-            border-grey-light
             w-fit 
             rounded-md 
             border-2 
-            border-solid bg-white px-2 py-2 text-sm text-gray-600
+            bg-white 
+            px-2 
+            py-2 
+            text-sm 
+            text-gray-600 
+            shadow-md
             "
               >
                 {selectedFile?.name}

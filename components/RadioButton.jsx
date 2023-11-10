@@ -4,15 +4,15 @@ const RadioButton = ({ variant }) => {
   return (
     <div>
       {variant === "disabled" ? (
-        <label>
+        <label className="cursor-not-allowed">
           <input
             disabled
             type="radio"
-            className="form-radio border-indigo-400 text-indigo-600"
+            className="form-radio cursor-not-allowed border-indigo-400 text-indigo-600"
             name=""
             id=""
           />
-          <span>Disabled Radio Button</span>
+          <span className="text-gray-400">Disabled Radio Button</span>
         </label>
       ) : (
         <label>
@@ -22,7 +22,7 @@ const RadioButton = ({ variant }) => {
             name=""
             id=""
           />
-          <span>Standard Radio Button</span>
+          <span className="">Standard Radio Button</span>
         </label>
       )}
       
