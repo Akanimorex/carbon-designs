@@ -1,16 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Data from "../data/Data.json";
-import "../styles/pagination.css"
+import "../styles/pagination.css";
 
-const Pagination = ({activeStyles}) => {
+const Pagination = () => {
+  // TODO: upgrade this
+  // no. of items to be allowed items per page (select input style)
+  //total item count
+  //no of pages left
+
+  //top of the list of each page
+  //bottom of the list of each page
+
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 5;
+  const [isPrevDisabled, setPrevDisabled] = useState(false);
+  const [isNextDisabled, setNextDisabled] = useState(false);
+  const totalNoOfItems = Data.length;
+  const recordsPerPage = 5; // i'll need this
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const records = Data.slice(firstIndex, lastIndex);
   const nPage = Math.ceil(Data.length / recordsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
-  console.log(Data, "data");
+
+  useEffect(() => {
+    console.log(lastIndex, "last index");
+    console.log(firstIndex, "first index");
+    console.log(currentPage, "currentPage");
+
+    // let lastPage = Data.length-1;
+    if (currentPage <= 1) {
+      setPrevDisabled(true);
+      console.log("first page reached");
+    } else {
+      setPrevDisabled(false);
+    }
+
+    if (currentPage >= nPage) {
+      setNextDisabled(true);
+      console.log("end of the road");
+    } else {
+      setNextDisabled(false);
+    }
+  }, [currentPage, nPage]);
 
   const changeCurrentPage = (e, id) => {
     e.preventDefault();
@@ -38,8 +69,8 @@ const Pagination = ({activeStyles}) => {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div>
-        <table className=" w-full leading-normal bg-gray-500">
+      <div className="w-full">
+        <table className="w-1/2 bg-gray-500 leading-normal">
           <thead>
             <tr>
               <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-700">
@@ -56,21 +87,40 @@ const Pagination = ({activeStyles}) => {
           <tbody>
             {records.map((d, i) => (
               <tr key={i}>
-                <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">{d.ID}</td>
-                <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">{d.name}</td>
-                <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm">{d.email}</td>
+                <td className="border-b border-gray-200 bg-white px-3 py-3 text-sm">
+                  {d.ID}
+                </td>
+                <td className="border-b border-gray-200 bg-white px-3 py-3 text-sm">
+                  {d.name}
+                </td>
+                <td className="border-b border-gray-200 bg-white px-3 py-3 text-sm">
+                  {d.email}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <nav className="">
-          <ul className="list-none bg-white p-2 shadow-sm rounded">
+        <nav className="w-1/2">
+          <ul className="list-none rounded bg-white p-2 shadow-sm">
             <li className="pagination-item">
-              <a href="#" onClick={(e) => prevPage(e)} className="page-linkrounded-l rounded-sm border border-gray-100 px-3 py-2  no-underline text-gray-600 h-10">
-                Prev
-              </a>
+              {isPrevDisabled ? (
+                <a className="h-10 cursor-not-allowed rounded-sm rounded-l border border-gray-100 bg-gray-200 px-3 py-2 text-gray-600 no-underline">
+                  Prev
+                </a>
+              ) : (
+                <a
+                  href="#"
+                  onClick={(e) => prevPage(e)}
+                  className="page-link h-10 rounded-sm rounded-l border border-gray-100 px-3  py-2 text-gray-600 no-underline"
+                >
+                  Prev
+                </a>
+              )}
             </li>
-            {numbers.map((n, i) => (
+            <li className="inline-block">
+              {`${firstIndex + 1}-${lastIndex} of ${totalNoOfItems} items`}
+            </li>
+            {/* {numbers.map((n, i) => (
               <li
                 className={`pagination-item ${currentPage === n ? `active` : ""}`}
                 key={i}
@@ -100,17 +150,24 @@ const Pagination = ({activeStyles}) => {
                   {n}
                 </a>
               </li>
-            ))}
+            ))} */}
             <li className="pagination-item">
-              <a href="#" 
-              onClick={(e) => nextPage(e)} 
-              className="page-linkrounded-l rounded-sm border border-gray-100 px-3 py-2  no-underline text-gray-600 h-10">
-                Next
-              </a>
+              {isNextDisabled ? (
+                <a className="page-linkrounded-l h-10 cursor-not-allowed rounded-sm border border-gray-100 bg-gray-200 px-3  py-2 text-gray-600 no-underline">
+                  Next
+                </a>
+              ) : (
+                <a
+                  href="#"
+                  onClick={(e) => nextPage(e)}
+                  className="page-linkrounded-l h-10 rounded-sm border border-gray-100 px-3   py-2 text-gray-600 no-underline"
+                >
+                  Next
+                </a>
+              )}
             </li>
           </ul>
         </nav>
-
       </div>
     </div>
   );
