@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import Data from "../data/Data.json";
 import "../styles/pagination.css";
 
-const Pagination = () => {
+const Pagination = ({recordsPerPageArray}) => {
+ 
+  console.log(recordsPerPageArray,"records-array")
+
   // TODO: upgrade this
   // no. of items to be allowed items per page (select input style)
   //total item count
@@ -14,8 +17,9 @@ const Pagination = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isPrevDisabled, setPrevDisabled] = useState(false);
   const [isNextDisabled, setNextDisabled] = useState(false);
+  const [recordsPerPage, setRecordsPerPage] = useState(5)
   const totalNoOfItems = Data.length;
-  const recordsPerPage = 5; // i'll need this
+  // const recordsPerPage = 5; // i'll need this
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const records = Data.slice(firstIndex, lastIndex);
@@ -46,7 +50,7 @@ const Pagination = () => {
   const changeCurrentPage = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
-    setCurrentPage(id);
+    setCurrentPage(e.target.value);
   };
   const prevPage = (e) => {
     e.preventDefault();
@@ -70,7 +74,7 @@ const Pagination = () => {
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full">
-        <table className="w-1/2 bg-gray-500 leading-normal">
+        <table className="w-1/2  bg-gray-500 leading-normal">
           <thead>
             <tr>
               <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-700">
@@ -79,7 +83,7 @@ const Pagination = () => {
               <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-700">
                 Name
               </th>
-              <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-700">
+              <th className="border-b-2 border-gray-200 bg-gray-100 px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-700">
                 Email
               </th>
             </tr>
@@ -100,8 +104,22 @@ const Pagination = () => {
             ))}
           </tbody>
         </table>
-        <nav className="w-1/2">
-          <ul className="list-none rounded bg-white p-2 shadow-sm">
+        <nav className="flex w-1/2 bg-gray-300">
+          <select 
+          name="" 
+          className="bg-gray-300"
+          value={recordsPerPage} 
+          onChange={(e)=>setRecordsPerPage(e.target.value)}
+           id="">
+            {
+              recordsPerPageArray.map((r,i)=>(      
+                <option value={r} key={i}>
+                  {r}
+                </option>
+              ))
+            }
+          </select>
+          <ul className="flex w-full list-none gap-6 rounded bg-gray-300 p-2 shadow-sm">
             <li className="pagination-item">
               {isPrevDisabled ? (
                 <a className="h-10 cursor-not-allowed rounded-sm rounded-l border border-gray-100 bg-gray-200 px-3 py-2 text-gray-600 no-underline">
@@ -120,6 +138,18 @@ const Pagination = () => {
             <li className="inline-block">
               {`${firstIndex + 1}-${lastIndex} of ${totalNoOfItems} items`}
             </li>
+            <select
+              onChange={(e) => changeCurrentPage(e)}
+              value={currentPage}
+              name=""
+              id=""
+            >
+              {numbers.map((n, i) => (
+                <option value={n} key={i}>
+                  {n}
+                </option>
+              ))}
+            </select>
             {/* {numbers.map((n, i) => (
               <li
                 className={`pagination-item ${currentPage === n ? `active` : ""}`}
