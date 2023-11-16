@@ -9,11 +9,13 @@ const FileUploader = ({ variant }) => {
   const [inputButton, setInputButton] = useState(true);
 
   const [preview, setPreview] = useState(null); //for the preview :not done yet
+  
+  //TODO: FILE PREVIEW WITH FILEREADER API
 
   const fileInput = useRef(null);
 
 
-
+  //on load, check if we are in a dragNdrop feature, setState accordingly
   useEffect(()=>{
     if(variant === "dragAndDrop"){
       setInputButton(false)
@@ -58,11 +60,9 @@ const FileUploader = ({ variant }) => {
 
     e.stopPropagation();
     console.log(inputButton,"input button")
-    // it shouldn't be based on the variant change,
-    //  so the click button can work too in the dragNdrop varianto
-    // let file =
-      // variant == "dragAndDrop" ? e.dataTransfer.files[0] : e.target.files[0];
 
+    // dragndrop feature it shouldn't be based on the variant change,
+    //  so the click button can work too in the dragNdrop variant, so it's sent to a state
       let file = null;
 
       if(inputButton){
@@ -74,11 +74,6 @@ const FileUploader = ({ variant }) => {
         fileChecks(file)
         console.log("processing drag")
       }
-
-
-
-    // console.log(file, "file");
-   
 
     //check if file has been selected
     // if (e.target.files.length > 0) {
@@ -98,7 +93,7 @@ const FileUploader = ({ variant }) => {
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
       setDragActive(true);
-      setInputButton(false);
+      setInputButton(false); //set button upload false
     } else if (e.type === "dragleave") {
       setDragActive(false);
     }
@@ -110,10 +105,6 @@ const FileUploader = ({ variant }) => {
     e.stopPropagation();
     setDragActive(false);
 
-
-
-    //bug here
-    console.log(e, "from file drag");
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFileChange(e);
       // at least one file has been dropped so do something
@@ -151,7 +142,7 @@ const FileUploader = ({ variant }) => {
                 type="button"
                 onClick={(e) => {
                   fileInput.current && fileInput.current.click();
-                  setInputButton(true);
+                  setInputButton(true); //set button upload true when it is clicked
                 }}
                 value={null}
               >
