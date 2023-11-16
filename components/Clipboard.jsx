@@ -1,11 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { AiOutlineCopy } from "react-icons/ai";
 
 const Clipboard = ({ variant }) => {
     const [toolTipData, setToolTipData]= useState("Copy To Clipboard");
+    const toolTipRef = useRef();
 
     const changeToolTipData = ()=>{
         setToolTipData("Copy To Clipboard");
+    }
+
+    //TODO: Automatic repositioning of the tooltip, would be influenced by a new variant
+    const handleMouseEnter = (e) =>{
+      console.log(e,"mouseenter");
+
+      //getting the bearings
+      const targetRect = e.target.getBoundingClientRect();
+      const tooltipRect = toolTipRef.current.getBoundingClientRect();
+      const space = {
+        top: targetRect.top,
+        bottom: window.innerHeight - targetRect.bottom,
+        left: targetRect.left,
+        right: window.innerWidth - targetRect.right,
+      };
+
+      //conditions for the positioning
+
+      if (space.bottom > tooltipRect.height) {
+        toolTipRef.current.style.top = targetRect.bottom + 'px';
+      } else if (space.top > tooltipRect.height) {
+        toolTipRef.current.style.top = targetRect.top - tooltipRect.height + 'px';
+      } else if (space.right > tooltipRect.width) {
+        toolTipRef.current.style.left = targetRect.right + 'px';
+      } else if (space.left > tooltipRect.width) {
+        toolTipRef.current.style.left = targetRect.left - tooltipRect.width + 'px';
+      } else {
+        toolTipRef.current.style.top = targetRect.bottom + 'px';
+      }
     }
 
 
@@ -91,7 +121,17 @@ const Clipboard = ({ variant }) => {
         `}
           data-tip={toolTipData}
         >
-          <button onClick={()=>setToolTipData("Copied!")} onMouseOver={changeToolTipData} className="bg-gray-200 p-3 text-3xl font-medium hover:bg-gray-300 focus:outline focus:ring-4">
+          <button 
+          onClick={()=>setToolTipData("Copied!")} 
+          onMouseOver={changeToolTipData} 
+          className="
+          bg-gray-200 
+          p-3 
+          text-3xl 
+          font-medium 
+          hover:bg-gray-300 
+          focus:outline 
+          focus:ring-4">
             <AiOutlineCopy />
           </button>
         </div>

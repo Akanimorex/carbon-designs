@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 const FileUploader = ({ variant }) => {
@@ -6,13 +6,19 @@ const FileUploader = ({ variant }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [formatErrorMessage, setFormatErrorMessage] = useState("");
   const [dragActive, setDragActive] = useState(false);
-  const [inputButton, setInputButton] = useState(false);
+  const [inputButton, setInputButton] = useState(true);
 
   const [preview, setPreview] = useState(null); //for the preview :not done yet
 
   const fileInput = useRef(null);
 
-  const checkFileHasBeenSelected = () => {};
+
+
+  useEffect(()=>{
+    if(variant === "dragAndDrop"){
+      setInputButton(false)
+    }
+  },[variant])
 
   var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
   const checkFileFormat = (file) => {
@@ -36,25 +42,7 @@ const FileUploader = ({ variant }) => {
     return true;
   };
 
-  const handleFileChange = (e) => {
-    //handle validations
-
-    e.stopPropagation();
-    // it shouldn't be based on the variant change,
-    //  so the click button can work too in the dragNdrop variant
-    let file =
-      variant == "dragAndDrop" ? e.dataTransfer.files[0] : e.target.files[0];
-
-      
-    // if (variant == "dragAndDrop") {
-    //   file = e.dataTransfer.files[0];
-    // } else if (inputButton) {
-    //   file = e.target.files[0];
-    // }else {
-    //     file = e.target.files[0]
-    // }
-
-    // console.log(file, "file");
+  const fileChecks = (file)=>{
     checkFileFormat(file);
     checkFileSize(file);
 
@@ -63,6 +51,34 @@ const FileUploader = ({ variant }) => {
     } else {
       console.log("stuff went wrong with the checks");
     }
+  }
+
+  const handleFileChange = (e) => {
+    //handle validations
+
+    e.stopPropagation();
+    console.log(inputButton,"input button")
+    // it shouldn't be based on the variant change,
+    //  so the click button can work too in the dragNdrop varianto
+    // let file =
+      // variant == "dragAndDrop" ? e.dataTransfer.files[0] : e.target.files[0];
+
+      let file = null;
+
+      if(inputButton){
+        console.log("processing button file")
+        file = e.target.files[0];
+        fileChecks(file)
+      }else{
+        file = e.dataTransfer.files[0];
+        fileChecks(file)
+        console.log("processing drag")
+      }
+
+
+
+    // console.log(file, "file");
+   
 
     //check if file has been selected
     // if (e.target.files.length > 0) {
@@ -82,6 +98,7 @@ const FileUploader = ({ variant }) => {
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
       setDragActive(true);
+      setInputButton(false);
     } else if (e.type === "dragleave") {
       setDragActive(false);
     }
@@ -92,6 +109,8 @@ const FileUploader = ({ variant }) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
+
+
 
     //bug here
     console.log(e, "from file drag");
@@ -116,7 +135,7 @@ const FileUploader = ({ variant }) => {
           >
             <input
               type="file"
-              className="absolute hidden"
+              className="absolute opacity-0"
               ref={fileInput}
               name=""
               onChange={handleFileChange}

@@ -17,3 +17,4 @@ export const bottomVariant ={
     }
 }
 
+//TO DO: Automatic repositioning variant
