@@ -1,6 +1,6 @@
-# react-plugin
+# Design System
 
-[Live link](https://react-plugin-seven.vercel.app)
+[Live link](https://design-system-three-tau.vercel.app/)
 
 
 
