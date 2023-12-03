@@ -1,4 +1,4 @@
-import Pagination from "../components/Pagination";
+import Pagination from "../components/Pagination/Pagination.jsx";
 
 export default {
     title:"Test/Pagination",

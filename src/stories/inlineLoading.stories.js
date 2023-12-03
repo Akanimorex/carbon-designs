@@ -1,4 +1,4 @@
-import InlineLoading from "../components/InlineLoading";
+import InlineLoading from "../components/InlineLoading/InlineLoading.jsx";
 
 
 export default  {

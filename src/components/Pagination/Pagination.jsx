@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Data from "../data/Data.json";
-import "../styles/pagination.css";
+import { Data } from "./Data.js";
+import "./pagination.css";
+
 
 const Pagination = ({recordsPerPageArray}) => {
  

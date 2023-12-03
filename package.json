@@ -1,5 +1,5 @@
 {
-  "name": "react-plugin",
+  "name": "akanimo-carbon-components",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Akanimo-Rex",
@@ -7,10 +7,15 @@
   "module": "lib/index.esm.js",
   "types": "lib/index.d.js",
   "devDependencies": {
+    "@babel/core": "^7.23.5",
+    "@babel/plugin-transform-runtime": "^7.23.4",
     "@babel/preset-env": "^7.23.5",
     "@babel/preset-react": "^7.18.6",
     "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "@storybook/addon-essentials": "^7.0.12",
     "@storybook/addon-interactions": "^7.0.12",
     "@storybook/addon-links": "^7.0.12",
@@ -25,10 +30,13 @@
     "prettier-plugin-tailwindcss": "^0.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup": "^4.4.1",
     "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "storybook": "^7.0.12",
-    "tailwindcss": "^3.3.2"
+    "rollup-plugin-postcss": "^4.0.2",
+    "storybook": "^7.0.12"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -40,23 +48,11 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "@babel/core": "^7.23.5",
     "@fortawesome/fontawesome-free": "^6.4.0",
-    "@rainbow-me/rainbowkit": "^1.0.11",
-    "@reduxjs/toolkit": "^1.9.5",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-terser": "^0.4.4",
-    "axios": "^1.4.0",
     "lottie-react": "^2.4.0",
     "react-icons": "^4.11.0",
     "react-loader-spinner": "^5.4.5",
-    "react-redux": "^8.1.1",
     "react-spinners": "^0.13.8",
-    "rollup": "^4.4.1",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "viem": "^1.10.8",
-    "wagmi": "^1.4.1"
+    "tailwindcss": "^3.3.2"
   }
 }

@@ -1,4 +1,4 @@
-import RadioButton from "../components/RadioButton";
+import RadioButton from "../components/RadioButton/RadioButton.jsx";
 
 
 export default {

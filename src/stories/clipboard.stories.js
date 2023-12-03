@@ -1,4 +1,4 @@
-import Clipboard from "../components/Clipboard";
+import Clipboard from "../components/Clipboard/Clipboard.jsx";
 
 export default  {
     title:"Test/Clipboard",

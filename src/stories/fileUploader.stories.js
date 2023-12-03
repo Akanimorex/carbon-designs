@@ -1,4 +1,4 @@
-import FileUploader from "../components/FileUploader"
+import FileUploader from "../components/FileUpload/FileUploader.jsx"
 
 export default  {
     title:"Test/FileUploader",
