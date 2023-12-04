@@ -31,7 +31,7 @@ Passing the prop
 
 # Components
 
-## Button []
+## Button 
 Button component expects  2 props `variant` and `disabled`. The `variant` props can can be set to  number of values which are:
 - danger
 - primary
@@ -39,20 +39,20 @@ Button component expects  2 props `variant` and `disabled`. The `variant` props 
 
 More prop types would be added for more 
     
-## Clipboard []
+## Clipboard 
 Generates a "copy-to-clipboard" button with a customizable tooltip. Expects a variant props which has two values that determines the position of the tooltip.
 - top
 - bottom
 
 More configurations would be set later
 
-## File Uploader []
+## File Uploader
 The file uploader component handles single file upload at the moment. Its default form is set to click-to-select method  of uploading files. To effect the drag-and-drop method, pass the value "dragAndDrop" into the `variant` prop.
 
-## InlineLoader []
+## InlineLoader
 The inlineLoader component has no prop whatsoever.
 
-## InputField []
+## InputField 
 The inputfield component renders an input field, expects a `variant` props which can be set to a number of values to determine the input types. It's default value is "text", if the prop is not set.
 
 - text
