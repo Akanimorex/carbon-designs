@@ -26,7 +26,7 @@ Passing the prop
 
 ```javascript
 
-<Button propName={"propValue"}
+<Button propName={"propValue"}/>
 ```
 
 # Components
