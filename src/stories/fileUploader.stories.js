@@ -6,9 +6,7 @@ export default  {
 }
 
 export const fileUploader = {
-    arg:{
-        
-    }
+    arg:{}
 }
 export const dragAndDrop = {
     args:{
