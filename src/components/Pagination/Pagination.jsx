@@ -3,36 +3,25 @@ import { Data } from "./Data.js";
 import "./pagination.css";
 
 
-const Pagination = ({recordsPerPageArray}) => {
+const Pagination = ({recordsPerPageArray,dataArray, recordsPerPage, setRecordsPerPage}) => {
  
-  console.log(recordsPerPageArray,"records-array")
-
-  // TODO: upgrade this
-  // no. of items to be allowed items per page (select input style)
-  //total item count
-  //no of pages left
-
-  //top of the list of each page
-  //bottom of the list of each page
 
   const [currentPage, setCurrentPage] = useState(1);
   const [isPrevDisabled, setPrevDisabled] = useState(false);
   const [isNextDisabled, setNextDisabled] = useState(false);
-  const [recordsPerPage, setRecordsPerPage] = useState(5)
-  const totalNoOfItems = Data.length;
-  // const recordsPerPage = 5; // i'll need this
+  // const [recordsPerPage, setRecordsPerPage] = useState(5)
+  const totalNoOfItems = dataArray? dataArray.length : 0;
+
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const records = Data.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(Data.length / recordsPerPage);
+  const records = dataArray? dataArray.slice(firstIndex, lastIndex) : [];
+  const nPage = dataArray? Math.ceil(dataArray.length / recordsPerPage):0;
   const numbers = [...Array(nPage + 1).keys()].slice(1);
 
   useEffect(() => {
-    console.log(lastIndex, "last index");
-    console.log(firstIndex, "first index");
-    console.log(currentPage, "currentPage");
+   
 
-    // let lastPage = Data.length-1;
+   // let lastPage = Data.length-1;
     if (currentPage <= 1) {
       setPrevDisabled(true);
       console.log("first page reached");
@@ -75,7 +64,10 @@ const Pagination = ({recordsPerPageArray}) => {
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full">
-        <table className="w-1/2  bg-gray-500 leading-normal">
+        {
+          records > 0? (records.map((d,i)=><div key={i}>{d.title}</div>)): null
+        }
+        {/* <table className="w-1/2  bg-gray-500 leading-normal">
           <thead>
             <tr>
               <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-700">
@@ -104,7 +96,7 @@ const Pagination = ({recordsPerPageArray}) => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> */}
         <nav className="flex w-1/2 bg-gray-300">
           <select 
           name="" 
