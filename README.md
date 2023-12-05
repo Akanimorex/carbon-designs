@@ -67,11 +67,16 @@ The Modal UI component renders a modal with some preset content. More configurat
     - "sm" - for a small size modal
     - "md" - for a medium sized modal
     - "lg" - for a large sized modal
-- `scroll` props. It is set to true by default
+- `scroll` props. It is set to true by default. It determines if the modal will be scrollable or not(for the content).
 
 # Pagination
 
-The pagination UI component is used to manipulate how you want data displayed. It expects a number of props. For now it is provided by a pre-fixed  array of data, but would be changed in the next version for the developer to provide an array of data as props and set the amount of data to be displayed per page.
+The pagination UI component is used to manipulate how you want data displayed. It expects a number of props. It expects the following Props:
+- `dataArray` - This accepts an array of data you want to display. Local or fetched from an API, you could pass array into the prop.
+- `recordsPerPage` - accepts a number in which the items would be rendered. (5, 10, 15...)
+
+
+ For now it is provided by a pre-fixed  array of data, but would be changed in the next version for the developer to provide an array of data as props and set the amount of data to be displayed per page.
 
 # Radio Button
 
