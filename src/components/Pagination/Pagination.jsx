@@ -67,36 +67,6 @@ const Pagination = ({recordsPerPageArray,dataArray, recordsPerPage, setRecordsPe
         {
           records > 0? (records.map((d,i)=><div key={i}>{d.title}</div>)): null
         }
-        {/* <table className="w-1/2  bg-gray-500 leading-normal">
-          <thead>
-            <tr>
-              <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-700">
-                ID
-              </th>
-              <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-700">
-                Name
-              </th>
-              <th className="border-b-2 border-gray-200 bg-gray-100 px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-700">
-                Email
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {records.map((d, i) => (
-              <tr key={i}>
-                <td className="border-b border-gray-200 bg-white px-3 py-3 text-sm">
-                  {d.ID}
-                </td>
-                <td className="border-b border-gray-200 bg-white px-3 py-3 text-sm">
-                  {d.name}
-                </td>
-                <td className="border-b border-gray-200 bg-white px-3 py-3 text-sm">
-                  {d.email}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table> */}
         <nav className="flex w-1/2 bg-gray-300">
           <select 
           name="" 
