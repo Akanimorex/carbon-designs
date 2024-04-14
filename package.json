@@ -8,7 +8,7 @@
   "types": "lib/index.d.js",
   "repository": {
     "type": "git",
-    "url": "https://design-system-three-tau.vercel.app"
+    "url": "https://github.com/Akanimorex/carbon-designs.git"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
