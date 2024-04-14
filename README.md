@@ -3,7 +3,9 @@
 A simple Design System Library to assist in building of storybook components.
 It is built with ReactJs, storybook and tailwindcss. In this first version, some configurations are not made available but it is to be noted as a Prototype (like Iron Man's mark 1 armor).
 
-https://design-system-three-tau.vercel.app
+Live link: https://design-system-three-tau.vercel.app
+
+Github repository: https://github.com/Akanimorex/carbon-designs.git
 
 
 # Installation

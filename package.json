@@ -6,6 +6,10 @@
   "license": "MIT",
   "module": "lib/index.esm.js",
   "types": "lib/index.d.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/npm/cli.git"
+  },
   "devDependencies": {
     "@babel/core": "^7.23.5",
     "@babel/plugin-transform-runtime": "^7.23.4",
